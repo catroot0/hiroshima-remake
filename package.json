@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7"
+  },
+  "name": "hiroshima-remake",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "type": "module",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drowning14/hiroshima-remake.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drowning14/hiroshima-remake/issues"
+  },
+  "homepage": "https://github.com/drowning14/hiroshima-remake#readme",
+  "description": "A powerful and high-speed bot designed for mass server destruction. Built for efficiency, it delivers rapid execution with minimal effort. Whether for testing, experimentation, or other purposes, this bot provides a seamless experience."
+}
