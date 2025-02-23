@@ -9,8 +9,7 @@ if (!fs.existsSync(logsDir)) {
 
 class Logger {
   constructor() {
-    // Generate a new log filename with a timestamp
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-"); // sanitize filename
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
     this.logFilePath = path.join(logsDir, `logs-${timestamp}.txt`);
   }
 

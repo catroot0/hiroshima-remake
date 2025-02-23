@@ -1,3 +1,5 @@
+import getGuild from "./getGuild.js";
+
 const welcomeLines = [
   "========================================================================",
   "██╗░░██╗███████╗██████╗░░█████╗░░██████╗██╗░░██╗██╗███╗░░░███╗░█████╗░",
@@ -14,6 +16,8 @@ const welcomeLines = [
   "██║░░██║███████╗██║░╚═╝░██║██║░░██║██║░╚██╗███████╗",
   "╚═╝░░╚═╝╚══════╝╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝",
   "========================================================================",
+  "",
+  "",
 ];
 
 function centerText(text) {
@@ -31,14 +35,20 @@ ${centerText("░╚═══██╗░░░██║░░░██╔══
 ${centerText("██████╔╝░░░██║░░░██║░░██║██║░░██║░░░██║░░░██║██║░╚███║╚██████╔╝")}
 ${centerText("╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚══╝░╚═════╝░")}
 `);
-
+let isDone = false;
 function welcome() {
   console.clear();
   for (let x = 0; x < welcomeLines.length; x++) {
     setTimeout(() => {
       console.log(centerText(welcomeLines[x]));
+      if (x == welcomeLines.length - 1) {
+        isDone = true;
+      }
+      if (isDone) {
+        getGuild();
+      }
     }, 300 * x);
   }
 }
 
-export { welcome };
+export { welcome, centerText };

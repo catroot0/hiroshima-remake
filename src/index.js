@@ -1,8 +1,7 @@
 import { config } from "dotenv";
 import { Client, GatewayIntentBits } from "discord.js";
-import { welcome } from "./alert/welcome.js";
 import logger from "./logging/logger.js";
-
+import { welcome } from "./alert/welcome.js";
 config();
 const token = process.env.TOKEN;
 
@@ -46,5 +45,5 @@ async function loginBot() {
     }, 500);
   }
 }
-
 loginBot();
+export default client;
