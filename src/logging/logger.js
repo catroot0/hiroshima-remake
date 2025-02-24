@@ -33,5 +33,4 @@ class Logger {
     this.log("ERROR", message);
   }
 }
-
 export default new Logger();
