@@ -1,4 +1,4 @@
-import getGuild from "./getGuild.js";
+import { getGuild } from "./getGuild.js";
 
 const welcomeLines = [
   "========================================================================",

@@ -10,7 +10,24 @@ const rl = readline.createInterface({
 
 let guilds = [];
 let guildIndex = 1;
+var guild = null;
+function askForServerNumber() {
+  rl.question("Enter The Server Number: ", (number) => {
+    var guildNumber = Number(number);
 
+    if (isNaN(guildNumber) || guildNumber < 1 || guildNumber >= guildIndex) {
+      console.log("Invalid server number. Please try again.");
+      logger.error(`invalid server number. (${guildNumber})`);
+      askForServerNumber();
+    } else {
+      guild = guilds[guildNumber - 1];
+      console.log(`Nuking: ${guild.name}`);
+      logger.info(`user selected ${guild.name}`);
+      rl.close();
+      return guild;
+    }
+  });
+}
 function getGuild() {
   logger.info("asking the user to nuke a server.");
   client.guilds.cache.forEach((guild) => {
@@ -25,24 +42,6 @@ function getGuild() {
   guilds.forEach((guild) => {
     console.log(`${centerText(`${guild.index}: ${guild.name}`)}`);
   });
-
-  function askForServerNumber() {
-    rl.question("Enter The Server Number: ", (number) => {
-      const guildNumber = Number(number);
-
-      if (isNaN(guildNumber) || guildNumber < 1 || guildNumber >= guildIndex) {
-        console.log("Invalid server number. Please try again.");
-        logger.error(`invalid server number. (${guildNumber})`);
-        askForServerNumber();
-      } else {
-        console.log(`Nuking: ${guilds[guildNumber - 1].name}`);
-        logger.info(`user selected ${guilds[guildNumber - 1].name}`);
-        rl.close();
-      }
-    });
-  }
-
   askForServerNumber();
 }
-
-export default getGuild;
+export { getGuild, guild };
