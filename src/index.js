@@ -3,7 +3,8 @@ import { Client, GatewayIntentBits } from "discord.js";
 import logger from "./logging/logger.js";
 import { welcome } from "./alert/welcome.js";
 config();
-const token = process.env.TOKEN;
+const token = process.env.token;
+const clientID = process.env.clientID;
 
 if (!token) {
   logger.error("Bot token is missing!");
@@ -38,6 +39,8 @@ async function loginBot() {
 
     if (error.syscall === "connect") {
       console.error("Network error! Please check your internet connection.");
+    } else if (error.name === "ConnectTimeoutError") {
+      console.error("Network error! Please check your internet connection.");
     } else {
       console.error("An unexpected error occurred. Restart the bot.");
     }
@@ -48,4 +51,4 @@ async function loginBot() {
   }
 }
 loginBot();
-export default client;
+export { client, clientID };

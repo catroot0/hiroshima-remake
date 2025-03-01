@@ -1,7 +1,9 @@
 import readline from "readline";
-import client from "../index.js";
+import { client } from "../index.js";
 import logger from "../logging/logger.js";
 import { centerText } from "./welcome.js";
+import pc from "picocolors";
+import nuke from "../nuke/nuke.js";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -10,23 +12,30 @@ const rl = readline.createInterface({
 
 let guilds = [];
 let guildIndex = 1;
-var guild = null;
+var selectedGuild = null;
 function askForServerNumber() {
-  rl.question("Enter The Server Number: ", (number) => {
-    var guildNumber = Number(number);
+  try {
+    rl.question(pc.yellow("Enter The Server Number: "), (number) => {
+      var guildNumber = Number(number);
 
-    if (isNaN(guildNumber) || guildNumber < 1 || guildNumber >= guildIndex) {
-      console.log("Invalid server number. Please try again.");
-      logger.error(`invalid server number. (${guildNumber})`);
-      askForServerNumber();
-    } else {
-      guild = guilds[guildNumber - 1];
-      console.log(`Nuking: ${guild.name}`);
-      logger.info(`user selected ${guild.name}`);
-      rl.close();
-      return guild;
-    }
-  });
+      if (isNaN(guildNumber) || guildNumber < 1 || guildNumber >= guildIndex) {
+        console.log(pc.red("Invalid server number. Please try again."));
+        logger.error(`invalid server number. (${guildNumber})`);
+        askForServerNumber();
+      } else {
+        selectedGuild = guilds[guildNumber - 1];
+        console.log(pc.green(`Nuking: ${selectedGuild.name}`));
+        logger.info(`user selected ${selectedGuild.name}`);
+        rl.close();
+        nuke();
+        return selectedGuild;
+      }
+    });
+  } catch (error) {
+    console.log(pc.red("An unexpected error occurred. Restart the bot."));
+    logger.error("An unexpected error occurred");
+    logger.error(error);
+  }
 }
 function getGuild() {
   logger.info("asking the user to nuke a server.");
@@ -40,8 +49,8 @@ function getGuild() {
   });
 
   guilds.forEach((guild) => {
-    console.log(`${centerText(`${guild.index}: ${guild.name}`)}`);
+    console.log(pc.cyan(`${centerText(`${guild.index}: ${guild.name}`)}`));
   });
   askForServerNumber();
 }
-export { getGuild, guild };
+export { getGuild, selectedGuild };

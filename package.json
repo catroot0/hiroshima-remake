@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "discord.js": "^14.18.0",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "picocolors": "^1.1.1"
   },
   "name": "hiroshima-remake",
   "version": "1.0.0",
   "main": "./src/index.js",
   "type": "module",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

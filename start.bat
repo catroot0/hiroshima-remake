@@ -1,5 +1,4 @@
 @echo off
-color D
 echo Checking dependencies...
 
 if exist node_modules (
@@ -8,6 +7,8 @@ if exist node_modules (
   echo Dependencies are not installed...
   echo Installing dependencies...
   npm install
+  echo please restart the bot.
+  pause
 )
 
 echo Checking .env file...

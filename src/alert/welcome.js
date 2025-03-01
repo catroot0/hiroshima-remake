@@ -1,4 +1,5 @@
 import { getGuild } from "./getGuild.js";
+import pc from "picocolors";
 
 const welcomeLines = [
   "========================================================================",
@@ -27,20 +28,22 @@ function centerText(text) {
   return " ".repeat(padding) + text;
 }
 
-console.log(`
+console.log(
+  pc.magenta(`
 ${centerText("░██████╗████████╗░█████╗░██████╗░████████╗██╗███╗░░██╗░██████╗░")}
 ${centerText("██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝██║████╗░██║██╔════╝░")}
 ${centerText("╚█████╗░░░░██║░░░███████║██████╔╝░░░██║░░░██║██╔██╗██║██║░░██╗░")}
 ${centerText("░╚═══██╗░░░██║░░░██╔══██║██╔══██╗░░░██║░░░██║██║╚████║██║░░╚██╗")}
 ${centerText("██████╔╝░░░██║░░░██║░░██║██║░░██║░░░██║░░░██║██║░╚███║╚██████╔╝")}
 ${centerText("╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚══╝░╚═════╝░")}
-`);
+`)
+);
 let isDone = false;
 function welcome() {
   console.clear();
   for (let x = 0; x < welcomeLines.length; x++) {
     setTimeout(() => {
-      console.log(centerText(welcomeLines[x]));
+      console.log(pc.magenta(centerText(welcomeLines[x])));
       if (x == welcomeLines.length - 1) {
         isDone = true;
       }
