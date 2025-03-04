@@ -13,44 +13,53 @@ const rl = readline.createInterface({
 let guilds = [];
 let guildIndex = 1;
 var selectedGuild = null;
-function askForServerNumber() {
-  try {
-    rl.question(pc.yellow("Enter The Server Number: "), (number) => {
-      var guildNumber = Number(number);
 
-      if (isNaN(guildNumber) || guildNumber < 1 || guildNumber >= guildIndex) {
-        console.log(pc.red("Invalid server number. Please try again."));
-        logger.error(`invalid server number. (${guildNumber})`);
-        askForServerNumber();
-      } else {
-        selectedGuild = guilds[guildNumber - 1];
-        console.log(pc.green(`Nuking: ${selectedGuild.name}`));
-        logger.info(`user selected ${selectedGuild.name}`);
-        rl.close();
-        nuke();
-        return selectedGuild;
-      }
-    });
-  } catch (error) {
-    console.log(pc.red("An unexpected error occurred. Restart the bot."));
-    logger.error("An unexpected error occurred");
-    logger.error(error);
-  }
-}
-function getGuild() {
-  logger.info("asking the user to nuke a server.");
-  client.guilds.cache.forEach((guild) => {
-    guilds.push({
-      index: guildIndex,
-      name: `${guild.name}`,
-      id: `${guild.id}`,
-    });
-    guildIndex++;
+function askForServerNumber() {
+  rl.question(pc.yellow("Enter The Server Number: "), (number) => {
+    const guildNumber = Number(number);
+
+    if (
+      !Number.isInteger(guildNumber) ||
+      guildNumber < 1 ||
+      guildNumber >= guildIndex
+    ) {
+      console.log(pc.red("Invalid server number. Please try again."));
+      logger.error(`Invalid server number: ${guildNumber}`);
+      return askForServerNumber(); // Ask again if invalid
+    }
+
+    selectedGuild = guilds[guildNumber - 1];
+    console.log(pc.green(`Nuking: ${selectedGuild.name}`));
+    logger.info(
+      `User selected ${selectedGuild.name} (ID: ${selectedGuild.id})`
+    );
+
+    rl.close();
+    nuke();
   });
+}
+
+function getGuild() {
+  logger.info("Fetching servers for nuking...");
+
+  guilds = client.guilds.cache.map((guild) => ({
+    index: guildIndex++,
+    name: guild.name,
+    id: guild.id,
+  }));
+
+  if (guilds.length === 0) {
+    console.log(pc.red("No servers found."));
+    logger.warn("No servers available.");
+    rl.close();
+    return;
+  }
 
   guilds.forEach((guild) => {
-    console.log(pc.cyan(`${centerText(`${guild.index}: ${guild.name}`)}`));
+    console.log(pc.cyan(centerText(`${guild.index}: ${guild.name}`)));
   });
+
   askForServerNumber();
 }
+
 export { getGuild, selectedGuild };
