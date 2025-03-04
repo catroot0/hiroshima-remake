@@ -13,32 +13,45 @@ export default async function deleteAllRoles() {
 
     if (!bot.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
       const errorMsg =
-        "Bot lacks 'Manage Roles' permission! Please update permissions and restart.";
+        "Bot lacks 'Manage Roles' permission! Update permissions and restart.";
       logger.error(errorMsg);
       console.error(pc.red(errorMsg.toUpperCase()));
-      process.exit(1);
+      return;
     }
 
     logger.info(
       "Bot has 'Manage Roles' permission. Initiating role deletion..."
     );
 
-    for (const role of guild.roles.cache.values()) {
-      if (!role.editable || role.name === "@everyone") {
-        console.log(pc.red(`Skipping: Cannot delete role '${role.name}'.`));
-        continue;
-      }
+    const deletableRoles = guild.roles.cache.filter(
+      (role) => role.editable && role.name !== "@everyone"
+    );
 
+    if (deletableRoles.size === 0) {
+      logger.warn("No roles available for deletion.");
+      console.log(pc.yellow("No deletable roles found."));
+      return;
+    }
+
+    let deletedRoles = 0;
+
+    for (const role of deletableRoles.values()) {
       try {
         console.log(pc.yellow(`Attempting to delete role: '${role.name}'`));
         await role.delete();
-        logger.info(`Successfully deleted role: '${role.name}'`);
-        console.log(pc.green(`Deleted role: '${role.name}'`));
+        logger.info(`Deleted role: '${role.name}' (${role.id})`);
+        console.log(pc.green(`Deleted: '${role.name}'`));
+        deletedRoles++;
       } catch (error) {
-        logger.error(`Failed to delete role '${role.name}': ${error.message}`);
-        console.log(pc.blueBright(`Skipping '${role.name}' due to an error.`));
+        logger.error(`Failed to delete '${role.name}': ${error.message}`);
+        console.log(pc.red(`Skipping '${role.name}' due to error.`));
       }
     }
+
+    logger.info(`Role deletion complete. Total deleted: ${deletedRoles}`);
+    console.log(
+      pc.cyan(`Role deletion finished. Deleted ${deletedRoles} roles.`)
+    );
   } catch (error) {
     logger.error(`Error in deleteAllRoles: ${error.message}`);
     console.error(pc.red(`Unexpected error: ${error.message}`));
