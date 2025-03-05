@@ -3,25 +3,12 @@ import { selectedGuild } from "../alert/getGuild.js";
 import { client } from "../index.js";
 import pc from "picocolors";
 import logger from "../logging/logger.js";
-
-export default async function deleteAllRoles() {
+var guild = null;
+var bot = null;
+async function deleteAllRoles() {
   try {
-    const guild = await client.guilds.fetch(selectedGuild.id);
-    const bot = await guild.members.fetch(client.user.id);
-
-    logger.info("Checking bot permissions for 'Manage Roles'...");
-
-    if (!bot.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-      const errorMsg =
-        "Bot lacks 'Manage Roles' permission! Update permissions and restart.";
-      logger.error(errorMsg);
-      console.error(pc.red(errorMsg.toUpperCase()));
-      return;
-    }
-
-    logger.info(
-      "Bot has 'Manage Roles' permission. Initiating role deletion..."
-    );
+    guild = await client.guilds.fetch(selectedGuild.id);
+    bot = await guild.members.fetch(client.user.id);
 
     const deletableRoles = guild.roles.cache.filter(
       (role) => role.editable && role.name !== "@everyone"
@@ -57,3 +44,4 @@ export default async function deleteAllRoles() {
     console.error(pc.red(`Unexpected error: ${error.message}`));
   }
 }
+export { guild, bot, deleteAllRoles };

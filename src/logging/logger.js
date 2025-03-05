@@ -41,5 +41,5 @@ class Logger {
     await this.log("ERROR", message);
   }
 }
-
-export default new Logger();
+const logger = new Logger();
+export default logger;

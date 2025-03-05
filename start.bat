@@ -18,7 +18,6 @@ if exist .env (
   echo .env does not exist.
   echo Creating .env file...
   echo token = "" > .env
-  echo clientID = "" >> .env
 )
 timeout /t 3 >nul
 cls
