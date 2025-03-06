@@ -1,4 +1,3 @@
-import { PermissionsBitField } from "discord.js";
 import { selectedGuild } from "../alert/getGuild.js";
 import { client } from "../index.js";
 import pc from "picocolors";
@@ -24,7 +23,14 @@ async function deleteAllRoles() {
 
     for (const role of deletableRoles.values()) {
       try {
-        console.log(pc.yellow(`Attempting to delete role: '${role.name}'`));
+        logger.info(
+          `Attempting to delete role: '${role.name}', (id: ${role.id})`
+        );
+        console.log(
+          pc.yellow(
+            `Attempting to delete role: '${role.name}', (id: ${role.id})`
+          )
+        );
         await role.delete();
         logger.info(`Deleted role: '${role.name}' (${role.id})`);
         console.log(pc.green(`Deleted: '${role.name}'`));

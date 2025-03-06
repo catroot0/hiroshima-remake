@@ -18,7 +18,7 @@ export default async function checkPermissions() {
     };
     for (const [flag, name] of Object.entries(permissionsToCheck)) {
       if (bot.permissions.has(PermissionsBitField.Flags[flag])) {
-        logger.info(`logger has ${name} permission`);
+        logger.info(`bot has ${name} permission`);
       } else {
         logger.error(`bot does not have ${name} permission`);
         console.log(pc.red(`Bot does not have '${name}' permission.`));
@@ -38,6 +38,7 @@ export default async function checkPermissions() {
     } else {
       logger.info("bot has all required permissions");
       console.log(pc.green("bot has all required permissions"));
+      return 1;
     }
   } catch (error) {
     console.log("unexpected error happened: ", error);
