@@ -5,7 +5,7 @@ import pc from "picocolors";
 import logger from "../logging/logger.js";
 export default async function checkPermissions() {
   try {
-    logger.info("checking permissions...");
+    await logger.info("checking permissions...");
     const guild = await client.guilds.fetch(selectedGuild.id);
     const bot = await guild.members.fetch(client.user.id);
     let missingPermissions = [];
@@ -18,9 +18,9 @@ export default async function checkPermissions() {
     };
     for (const [flag, name] of Object.entries(permissionsToCheck)) {
       if (bot.permissions.has(PermissionsBitField.Flags[flag])) {
-        logger.info(`bot has ${name} permission`);
+        await logger.info(`bot has ${name} permission`);
       } else {
-        logger.error(`bot does not have ${name} permission`);
+        await logger.error(`bot does not have ${name} permission`);
         console.log(pc.red(`Bot does not have '${name}' permission.`));
         missingPermissions.push(name);
       }

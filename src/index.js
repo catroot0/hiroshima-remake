@@ -7,7 +7,7 @@ const token = process.env.token;
 const clientID = process.env.clientID;
 
 if (!token) {
-  logger.error("Bot token is missing!");
+  await logger.error("Bot token is missing!");
   console.error("Bot token is missing! Please check your .env file.");
   console.error("Press any key to exit.");
   process.exit(1);
@@ -23,19 +23,19 @@ const client = new Client({
   ],
 });
 
-client.once("ready", () => {
-  logger.info("Bot is ready!");
+client.once("ready", async () => {
+  await logger.info("Bot is ready!");
   welcome();
 });
 
 async function loginBot() {
   try {
-    logger.info("Logging in...");
+    await logger.info("Logging in...");
     await client.login(token);
-    logger.info("Login successful!");
+    await logger.info("Login successful!");
   } catch (error) {
-    logger.error("Login failed!");
-    logger.error(error.stack || error.message || error);
+    await logger.error("Login failed!");
+    await logger.error(error.stack || error.message || error);
 
     if (error.syscall === "connect") {
       console.error("Network error! Please check your internet connection.");

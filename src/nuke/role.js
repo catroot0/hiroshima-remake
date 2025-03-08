@@ -14,7 +14,7 @@ async function deleteAllRoles() {
     );
 
     if (deletableRoles.size === 0) {
-      logger.warn("No roles available for deletion.");
+      await logger.warn("No roles available for deletion.");
       console.log(pc.yellow("No deletable roles found."));
       return;
     }
@@ -23,7 +23,7 @@ async function deleteAllRoles() {
 
     for (const role of deletableRoles.values()) {
       try {
-        logger.info(
+        await logger.info(
           `Attempting to delete role: '${role.name}', (id: ${role.id})`
         );
         console.log(
@@ -32,21 +32,21 @@ async function deleteAllRoles() {
           )
         );
         await role.delete();
-        logger.info(`Deleted role: '${role.name}' (${role.id})`);
+        await logger.info(`Deleted role: '${role.name}' (${role.id})`);
         console.log(pc.green(`Deleted: '${role.name}'`));
         deletedRoles++;
       } catch (error) {
-        logger.error(`Failed to delete '${role.name}': ${error.message}`);
+        await logger.error(`Failed to delete '${role.name}': ${error.message}`);
         console.log(pc.red(`Skipping '${role.name}' due to error.`));
       }
     }
 
-    logger.info(`Role deletion complete. Total deleted: ${deletedRoles}`);
+    await logger.info(`Role deletion complete. Total deleted: ${deletedRoles}`);
     console.log(
       pc.cyan(`Role deletion finished. Deleted ${deletedRoles} roles.`)
     );
   } catch (error) {
-    logger.error(`Error in deleteAllRoles: ${error.message}`);
+    await logger.error(`Error in deleteAllRoles: ${error.message}`);
     console.error(pc.red(`Unexpected error: ${error.message}`));
   }
 }

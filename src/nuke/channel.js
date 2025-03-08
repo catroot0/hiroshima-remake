@@ -34,18 +34,12 @@ function getRandomEmojiString(length) {
 class ChannelManager {
   async deleteAllChannels() {
     try {
-      if (!guild || !guild.channels) {
-        logger.error("Guild or channels not found.");
-        console.log(pc.red("Error: Guild or channels not accessible."));
-        return;
-      }
-
       let deletableChannels = guild.channels.cache.filter(
         (channel) => channel.deletable
       );
 
       if (deletableChannels.size === 0) {
-        logger.warn("No channel available for deletion.");
+        await logger.warn("No channel available for deletion.");
         console.log(pc.yellow("No deletable channels found."));
         return;
       }
@@ -53,7 +47,7 @@ class ChannelManager {
       let deletedChannels = 0;
       for (const channel of deletableChannels.values()) {
         try {
-          logger.info(
+          await logger.info(
             `Attempting to delete channel: '${channel.name}' (id: ${channel.id})`
           );
           console.log(
@@ -63,18 +57,22 @@ class ChannelManager {
           );
 
           await channel.delete();
-          logger.info(`Deleted channel: '${channel.name}' (${channel.id})`);
+          await logger.info(
+            `Deleted channel: '${channel.name}' (${channel.id})`
+          );
           console.log(
             pc.green(`Deleted channel: '${channel.name}' (${channel.id})`)
           );
           deletedChannels++;
         } catch (error) {
-          logger.error(`Failed to delete '${channel.name}': ${error.message}`);
+          await logger.error(
+            `Failed to delete '${channel.name}': ${error.message}`
+          );
           console.log(pc.red(`Skipping '${channel.name}' due to error.`));
         }
       }
 
-      logger.info(
+      await logger.info(
         `Channel deletion complete. Total deleted: ${deletedChannels}`
       );
       console.log(
@@ -83,24 +81,38 @@ class ChannelManager {
         )
       );
     } catch (error) {
-      logger.error(`Error in deleteAllChannels: ${error.message}`);
+      await logger.error(`Error in deleteAllChannels: ${error.message}`);
       console.error(pc.red(`Unexpected error: ${error.message}`));
     }
   }
 
   async createChannel() {
     try {
-      for (let x = 0; x < 15; x++) {
+      let guildSpace = 500 - guild.channels.cache.size;
+      let createdChannelsAmount = 0;
+      console.log(
+        pc.yellow(`Attempting to create ${pc.red(guildSpace)} channel...`)
+      );
+      await logger.info(`Attempting to create ${guildSpace} channel...`);
+      for (let x = 1; x < guildSpace; x++) {
         await guild.channels.create({
           name: `${getRandomEmojiString(1)}-${getRandomString(98)}`,
           type: 0,
         });
 
-        logger.info("Channel 'E' created successfully.");
-        console.log(pc.green("Channel 'E' created successfully."));
+        guildSpace--;
+        createdChannelsAmount++;
+
+        await logger.info(`${x}th Channel created successfully.`);
+        console.log(
+          pc.green(`${x}th Channel created successfully. ${guildSpace} left.`)
+        );
       }
+      console.log(
+        `Channel creation finished. created ${createdChannelsAmount} text channel.`
+      );
     } catch (error) {
-      logger.error(`Failed to create channel: ${error.message}`);
+      await logger.error(`Failed to create channel: ${error.message}`);
       console.log(pc.red(`Error creating channel: ${error.message}`));
     }
   }
