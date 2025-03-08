@@ -90,30 +90,52 @@ class ChannelManager {
     try {
       let guildSpace = 500 - guild.channels.cache.size;
       let createdChannelsAmount = 0;
+      let channels = [];
       console.log(
         pc.yellow(`Attempting to create ${pc.red(guildSpace)} channel...`)
       );
       await logger.info(`Attempting to create ${guildSpace} channel...`);
       for (let x = 1; x < guildSpace; x++) {
-        await guild.channels.create({
+        const channel = await guild.channels.create({
           name: `${getRandomEmojiString(1)}-${getRandomString(98)}`,
           type: 0,
         });
 
         guildSpace--;
         createdChannelsAmount++;
+        channels.push(channel);
 
         await logger.info(`${x}th Channel created successfully.`);
         console.log(
           pc.green(`${x}th Channel created successfully. ${guildSpace} left.`)
         );
+        this.sendMessages(channel);
       }
+
       console.log(
         `Channel creation finished. created ${createdChannelsAmount} text channel.`
       );
     } catch (error) {
       await logger.error(`Failed to create channel: ${error.message}`);
       console.log(pc.red(`Error creating channel: ${error.message}`));
+    }
+  }
+
+  async sendMessages(channel) {
+    for (let i = 0; i > -5; i++) {
+      await channel.send(`
+# Made By DrowningDev  
+- - Discord (user): <@901101714617286686>
+- - [Discord (user link)](https://discord.com/users/901101714617286686)
+- - [GitHub](https://github.com/drowning14)  
+[Source Code](https://github.com/drowning14/hiroshima-remake)  
+
+**Disclaimer: I am not responsible for any issues/problem related to this server/guild.  
+Please do not DM me with complaints.**  
+
+||@everyone||
+`);
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure there's a small delay between messages
     }
   }
 }
