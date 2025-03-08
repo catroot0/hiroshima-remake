@@ -122,7 +122,7 @@ class ChannelManager {
   }
 
   async sendMessages(channel) {
-    for (let i = 0; i > -5; i++) {
+    while (1) {
       await channel.send(`
 # Made By DrowningDev  
 - - Discord (user): <@901101714617286686>
