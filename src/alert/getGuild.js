@@ -11,7 +11,8 @@ const rl = readline.createInterface({
 });
 
 let guilds = [];
-let selectedGuild = null;
+let guildIndex = 1;
+var selectedGuild = null;
 
 async function askForServerNumber() {
   rl.question(pc.yellow("Enter The Server Number: "), async (number) => {
@@ -20,7 +21,7 @@ async function askForServerNumber() {
     if (
       !Number.isInteger(guildNumber) ||
       guildNumber < 1 ||
-      guildNumber > guilds.length
+      guildNumber >= guildIndex
     ) {
       console.log(pc.red("Invalid server number. Please try again."));
       await logger.error(`Invalid server number: ${guildNumber}`);
@@ -29,7 +30,6 @@ async function askForServerNumber() {
 
     selectedGuild = guilds[guildNumber - 1];
     console.log(pc.green(`Nuking: ${selectedGuild.name}`));
-
     await logger.info(
       `User selected ${selectedGuild.name} (ID: ${selectedGuild.id})`
     );
@@ -40,32 +40,29 @@ async function askForServerNumber() {
 }
 
 async function getGuild() {
-  try {
-    await logger.info("Fetching servers for nuking...");
+  await logger.info("Fetching servers for nuking...");
 
-    guilds = client.guilds.cache.map((guild, index) => ({
-      index: index + 1, // Ensure correct numbering
-      name: guild.name,
-      id: guild.id,
-    }));
+  // Reset guildIndex to 1 each time we fetch guilds
+  guildIndex = 1;
 
-    if (guilds.length === 0) {
-      console.log(pc.red("No servers found."));
-      await logger.warn("No servers available.");
-      rl.close();
-      return;
-    }
+  guilds = client.guilds.cache.map((guild) => ({
+    index: guildIndex++,
+    name: guild.name,
+    id: guild.id,
+  }));
 
-    guilds.forEach((guild) => {
-      console.log(pc.cyan(centerText(`${guild.index}: ${guild.name}`)));
-    });
-
-    askForServerNumber();
-  } catch (error) {
-    console.error(pc.red("Error fetching guilds:"), error);
-    await logger.error(`Error fetching guilds: ${error.message}`);
+  if (guilds.length === 0) {
+    console.log(pc.red("No servers found."));
+    await logger.warn("No servers available.");
     rl.close();
+    return;
   }
+
+  guilds.forEach((guild) => {
+    console.log(pc.cyan(centerText(`${guild.index}: ${guild.name}`)));
+  });
+
+  askForServerNumber();
 }
 
 export { getGuild, selectedGuild };
