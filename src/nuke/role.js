@@ -1,9 +1,16 @@
-import { getRandomEmoji, getRandomString } from "./channel.js";
+import { selectedGuild } from "../alert/getGuild.js";
+import { client } from "../index.js";
 import pc from "picocolors";
 import logger from "../logging/logger.js";
+var guild = null;
+var bot = null;
+
 class Role {
-  async deleteAllRoles(guild) {
+  async deleteAllRoles() {
     try {
+      guild = await client.guilds.fetch(selectedGuild.id);
+      bot = await guild.members.fetch(client.user.id);
+
       const deletableRoles = guild.roles.cache.filter(
         (role) => role.editable && role.name !== "@everyone"
       );
@@ -15,7 +22,7 @@ class Role {
       }
 
       let deletedRoles = 0;
-      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
       for (const role of deletableRoles.values()) {
         try {
           await logger.info(
@@ -30,7 +37,6 @@ class Role {
           await logger.info(`Deleted role: '${role.name}' (${role.id})`);
           console.log(pc.green(`Deleted: '${role.name}'`));
           deletedRoles++;
-          await delay(5000);
         } catch (error) {
           await logger.error(
             `Failed to delete '${role.name}': ${error.message}`
@@ -50,45 +56,6 @@ class Role {
       console.error(pc.red(`Unexpected error: ${error.message}`));
     }
   }
-
-  async createRole() {
-    try {
-      let guildRoleSpace = 250 - guild.roles.cache.size;
-      let createdRolesAmount = 0;
-
-      console.log(
-        pc.yellow(`Attempting to create ${pc.red(guildRoleSpace)} role...`)
-      );
-      await logger.info(`Attempting to create ${guildRoleSpace} role...`);
-
-      for (let x = 1; x < guildRoleSpace; x++) {
-        await guild.roles.create({
-          name: `${getRandomEmoji(1)}-${getRandomString(98)}`,
-          color: `${this.getRandomHexColor()}`,
-          permissions: [],
-        });
-
-        guildRoleSpace--;
-        createdRolesAmount++;
-
-        await logger.info(`${x}th Role created successfully.`);
-        console.log(
-          pc.green(`${x}th Role created successfully. ${guildRoleSpace} left.`)
-        );
-      }
-      console.log(
-        `Role creation finished. created ${createdRolesAmount} Role.`
-      );
-    } catch (error) {
-      await logger.error(`Failed to create channel: ${error.message}`);
-      console.log(pc.red(`Error creating channel: ${error.message}`));
-    }
-  }
-  getRandomHexColor() {
-    return `#${Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, "0")}`;
-  }
 }
 const RoleManager = new Role();
-export { RoleManager };
+export { guild, bot, RoleManager };
