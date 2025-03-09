@@ -20,4 +20,5 @@ export default async function nuke() {
     RoleManager.createRole(guild),
     ChannelManager.createChannel(guild),
   ]);
+  s;
 }
