@@ -1,7 +1,5 @@
-import { guild } from "./role.js";
-import pc from "picocolors";
 import logger from "../logging/logger.js";
-
+import pc from "picocolors";
 function getRandomString(length) {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -12,7 +10,7 @@ function getRandomString(length) {
   return result;
 }
 
-function getRandomEmojiString(length) {
+function getRandomEmoji(length) {
   const emojiRanges = [
     [0x1f600, 0x1f64f], // Emoticons
     [0x1f300, 0x1f5ff], // Misc symbols and pictographs
@@ -30,9 +28,8 @@ function getRandomEmojiString(length) {
   }
   return result;
 }
-
 class Channel {
-  async deleteAllChannels() {
+  async deleteAllChannels(guild) {
     try {
       let deletableChannels = guild.channels.cache.filter(
         (channel) => channel.deletable
@@ -86,28 +83,32 @@ class Channel {
     }
   }
 
-  async createChannel() {
+  async createChannel(guild) {
     try {
-      let guildSpace = 500 - guild.channels.cache.size;
+      let guildChannelSpace = 500 - guild.channels.cache.size;
       let createdChannelsAmount = 0;
-      let channels = [];
+      let createdChannels = [];
       console.log(
-        pc.yellow(`Attempting to create ${pc.red(guildSpace)} channel...`)
+        pc.yellow(
+          `Attempting to create ${pc.red(guildChannelSpace)} channel...`
+        )
       );
-      await logger.info(`Attempting to create ${guildSpace} channel...`);
-      for (let x = 1; x < guildSpace; x++) {
+      await logger.info(`Attempting to create ${guildChannelSpace} channel...`);
+      for (let x = 1; x < guildChannelSpace; x++) {
         const channel = await guild.channels.create({
-          name: `${getRandomEmojiString(1)}-${getRandomString(98)}`,
+          name: `${getRandomEmoji(1)}-${getRandomString(98)}`,
           type: 0,
         });
 
-        guildSpace--;
+        guildChannelSpace--;
         createdChannelsAmount++;
-        channels.push(channel);
+        createdChannels.push(channel);
 
         await logger.info(`${x}th Channel created successfully.`);
         console.log(
-          pc.green(`${x}th Channel created successfully. ${guildSpace} left.`)
+          pc.green(
+            `${x}th Channel created successfully. ${guildChannelSpace} left.`
+          )
         );
         this.sendMessages(channel);
       }
@@ -122,8 +123,9 @@ class Channel {
   }
 
   async sendMessages(channel) {
-    while (1) {
-      await channel.send(`
+    try {
+      while (1) {
+        await channel.send(`
 # Made By DrowningDev  
 - - Discord (user): <@901101714617286686>
 - - [Discord (user link)](https://discord.com/users/901101714617286686)
@@ -135,10 +137,18 @@ Please do not DM me with complaints.**
 
 ||@everyone||
 `);
-      await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure there's a small delay between messages
+        await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure there's a small delay between messages
+      }
+    } catch (error) {
+      await logger.error(
+        `Failed to Send Message Into ${channel.id}: ${error.message}`
+      );
+      console.log(
+        pc.red(`Error sending message into ${channel.id}: ${error.message}`)
+      );
     }
   }
 }
 
 const ChannelManager = new Channel();
-export default ChannelManager;
+export { ChannelManager, getRandomEmoji, getRandomString };

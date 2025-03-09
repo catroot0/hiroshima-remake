@@ -1,13 +1,9 @@
 import { PermissionsBitField } from "discord.js";
-import { selectedGuild } from "../alert/getGuild.js";
-import { client } from "../index.js";
 import pc from "picocolors";
 import logger from "../logging/logger.js";
-export default async function checkPermissions() {
+export default async function checkPermissions(bot) {
   try {
     await logger.info("checking permissions...");
-    const guild = await client.guilds.fetch(selectedGuild.id);
-    const bot = await guild.members.fetch(client.user.id);
     let missingPermissions = [];
     const permissionsToCheck = {
       ManageRoles: "Manage Roles",
