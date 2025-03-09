@@ -31,7 +31,7 @@ function getRandomEmojiString(length) {
   return result;
 }
 
-class ChannelManager {
+class Channel {
   async deleteAllChannels() {
     try {
       let deletableChannels = guild.channels.cache.filter(
@@ -140,5 +140,5 @@ Please do not DM me with complaints.**
   }
 }
 
-const Channel = new ChannelManager();
-export default Channel;
+const ChannelManager = new Channel();
+export default ChannelManager;
