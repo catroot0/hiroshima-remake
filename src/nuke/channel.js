@@ -1,4 +1,3 @@
-import { guild } from "./role.js";
 import pc from "picocolors";
 import logger from "../logging/logger.js";
 
@@ -32,7 +31,7 @@ function getRandomEmojiString(length) {
 }
 
 class Channel {
-  async deleteAllChannels() {
+  async deleteAllChannels(guild) {
     try {
       let deletableChannels = guild.channels.cache.filter(
         (channel) => channel.deletable
@@ -86,7 +85,7 @@ class Channel {
     }
   }
 
-  async createChannel() {
+  async createChannel(guild) {
     try {
       let guildSpace = 500 - guild.channels.cache.size;
       let createdChannelsAmount = 0;
