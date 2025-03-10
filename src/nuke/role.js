@@ -1,16 +1,10 @@
-import { selectedGuild } from "../alert/getGuild.js";
-import { client } from "../index.js";
+import { getRandomEmoji, getRandomString } from "./channel.js";
 import pc from "picocolors";
 import logger from "../logging/logger.js";
-var guild = null;
-var bot = null;
 
 class Role {
-  async deleteAllRoles() {
+  async deleteAllRoles(guild) {
     try {
-      guild = await client.guilds.fetch(selectedGuild.id);
-      bot = await guild.members.fetch(client.user.id);
-
       const deletableRoles = guild.roles.cache.filter(
         (role) => role.editable && role.name !== "@everyone"
       );
@@ -56,6 +50,45 @@ class Role {
       console.error(pc.red(`Unexpected error: ${error.message}`));
     }
   }
+
+  async createRole(guild) {
+    try {
+      let guildRoleSpace = 250 - guild.roles.cache.size;
+      let createdRolesAmount = 0;
+
+      console.log(
+        pc.yellow(`Attempting to create ${pc.red(guildRoleSpace)} role...`)
+      );
+      await logger.info(`Attempting to create ${guildRoleSpace} role...`);
+
+      for (let x = 1; x < guildRoleSpace; x++) {
+        await guild.roles.create({
+          name: `${getRandomEmoji(1)}-${getRandomString(98)}`,
+          color: `${this.getRandomHexColor()}`,
+          permissions: [],
+        });
+
+        guildRoleSpace--;
+        createdRolesAmount++;
+
+        await logger.info(`${x}th Role created successfully.`);
+        console.log(
+          pc.green(`${x}th Role created successfully. ${guildRoleSpace} left.`)
+        );
+      }
+      console.log(
+        `Role creation finished. created ${createdRolesAmount} Role.`
+      );
+    } catch (error) {
+      await logger.error(`Failed to create channel: ${error.message}`);
+      console.log(pc.red(`Error creating channel: ${error.message}`));
+    }
+  }
+  getRandomHexColor() {
+    return `#${Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, "0")}`;
+  }
 }
 const RoleManager = new Role();
-export { guild, bot, RoleManager };
+export { RoleManager };

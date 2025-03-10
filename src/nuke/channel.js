@@ -11,7 +11,7 @@ function getRandomString(length) {
   return result;
 }
 
-function getRandomEmojiString(length) {
+function getRandomEmoji(length) {
   const emojiRanges = [
     [0x1f600, 0x1f64f], // Emoticons
     [0x1f300, 0x1f5ff], // Misc symbols and pictographs
@@ -96,7 +96,7 @@ class Channel {
       await logger.info(`Attempting to create ${guildSpace} channel...`);
       for (let x = 1; x < guildSpace; x++) {
         const channel = await guild.channels.create({
-          name: `${getRandomEmojiString(1)}-${getRandomString(98)}`,
+          name: `${getRandomEmoji(1)}-${getRandomString(98)}`,
           type: 0,
         });
 
@@ -140,4 +140,4 @@ Please do not DM me with complaints.**
 }
 
 const ChannelManager = new Channel();
-export default ChannelManager;
+export { ChannelManager, getRandomString, getRandomEmoji };

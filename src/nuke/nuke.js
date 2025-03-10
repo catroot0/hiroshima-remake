@@ -1,4 +1,4 @@
-import ChannelManager from "./channel.js";
+import { ChannelManager } from "./channel.js";
 import { RoleManager } from "./role.js";
 import checkPermissions from "./checkPermission.js";
 import { client } from "../index.js";
@@ -15,5 +15,9 @@ export default async function nuke() {
   await deleteRoles;
   await deleteChannels;
 
-  await ChannelManager.createChannel(guild);
+  const createChannels = ChannelManager.createChannel(guild);
+  const createRoles = RoleManager.createRole(guild);
+
+  await createChannels;
+  await createRoles;
 }
