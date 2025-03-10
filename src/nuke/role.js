@@ -79,16 +79,19 @@ class Role {
       console.log(
         `Role creation finished. created ${createdRolesAmount} Role.`
       );
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     } catch (error) {
-      await logger.error(`Failed to create channel: ${error.message}`);
-      console.log(pc.red(`Error creating channel: ${error.message}`));
+      await logger.error(`Failed to create role: ${error.message}`);
+      console.log(pc.red(`Error creating role: ${error.message}`));
     }
   }
+
   getRandomHexColor() {
     return `#${Math.floor(Math.random() * 16777215)
       .toString(16)
       .padStart(6, "0")}`;
   }
 }
+
 const RoleManager = new Role();
 export { RoleManager };
