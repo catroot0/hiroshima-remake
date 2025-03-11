@@ -4,6 +4,7 @@ import logger from "../logging/logger.js";
 export default async function checkPermissions(bot) {
   try {
     await logger.info("checking permissions...");
+    console.log(pc.yellow("checking permissions..."));
     let missingPermissions = [];
     const permissionsToCheck = {
       ManageRoles: "Manage Roles",

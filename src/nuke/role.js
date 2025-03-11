@@ -10,7 +10,7 @@ class Role {
 
       if (deletableRoles.size === 0) {
         await logger.warn("No roles available for deletion.");
-        console.log(pc.yellow("No deletable roles found."));
+        console.log(pc.red("No deletable roles found!"));
         return;
       }
 

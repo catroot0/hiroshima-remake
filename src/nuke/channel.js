@@ -39,7 +39,7 @@ class Channel {
 
       if (deletableChannels.size === 0) {
         await logger.warn("No channel available for deletion.");
-        console.log(pc.yellow("No deletable channels found."));
+        console.log(pc.red("No deletable channels found."));
         return;
       }
 
@@ -112,7 +112,9 @@ class Channel {
       }
 
       console.log(
-        `Channel creation finished. created ${createdChannelsAmount} text channel.`
+        pc.cyan(
+          `Channel creation finished. created ${createdChannelsAmount} text channel.`
+        )
       );
     } catch (error) {
       await logger.error(`Failed to create channel: ${error.message}`);

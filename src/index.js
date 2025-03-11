@@ -2,6 +2,7 @@ import { config } from "dotenv";
 import { Client, GatewayIntentBits } from "discord.js";
 import logger from "./logging/logger.js";
 import { welcome } from "./alert/welcome.js";
+import pc from "picocolors";
 config();
 const token = process.env.token;
 const clientID = process.env.clientID;
@@ -27,7 +28,14 @@ client.once("ready", async () => {
   await logger.info("Bot is ready!");
   welcome();
 });
-
+client.on("guildDelete", async (guild) => {
+  await logger.warn(`bot got kicked from ${guild.name}, (id: ${guild.id})`);
+  console.log(pc.red(`bot got kicked from ${guild.name}, (id: ${guild.id})`));
+  console.log(
+    pc.red(`exiting the process, press any key to close the window.`)
+  );
+  process.exit(1);
+});
 async function loginBot() {
   try {
     await logger.info("Logging in...");

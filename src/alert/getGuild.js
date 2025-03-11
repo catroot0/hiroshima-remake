@@ -29,7 +29,6 @@ async function askForServerNumber() {
     }
 
     selectedGuild = guilds[guildNumber - 1];
-    console.log(pc.green(`Nuking: ${selectedGuild.name}`));
     await logger.info(
       `User selected ${selectedGuild.name} (ID: ${selectedGuild.id})`
     );
