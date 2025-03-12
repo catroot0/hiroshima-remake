@@ -5,7 +5,6 @@ import { centerText } from "./welcome.js";
 import pc from "picocolors";
 import nuke from "../nuke/nuke.js";
 
-// Initialize readline interface
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -26,7 +25,7 @@ async function askForServerNumber() {
     ) {
       console.log(pc.red("Invalid server number. Please try again."));
       await logger.error(`Invalid server number: ${guildNumber}`);
-      return askForServerNumber(); // Ask again if invalid
+      return askForServerNumber();
     }
 
     selectedGuild = guilds[guildNumber - 1];
@@ -41,7 +40,6 @@ async function askForServerNumber() {
 async function getGuild() {
   await logger.info("Fetching servers for nuking...");
 
-  // Reset guildIndex to 1 each time we fetch guilds
   guildIndex = 1;
 
   guilds = client.guilds.cache.map((guild) => ({
@@ -53,7 +51,7 @@ async function getGuild() {
   if (guilds.length === 0) {
     console.log(pc.red("No servers found."));
     await logger.warn("No servers available.");
-    rl.close(); // Close readline here if no guilds are available
+    rl.close();
     return;
   }
 
@@ -61,7 +59,7 @@ async function getGuild() {
     console.log(pc.cyan(centerText(`${guild.index}: ${guild.name}`)));
   });
 
-  askForServerNumber(); // Ask for server selection
+  askForServerNumber();
 }
 
 export { getGuild, selectedGuild };

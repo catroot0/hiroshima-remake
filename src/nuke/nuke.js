@@ -9,7 +9,6 @@ import pc from "picocolors";
 import logger from "../logging/logger.js";
 import MemberManager from "./member.js";
 
-// Function to create a fresh readline interface (if needed)
 function initializeReadline() {
   return readline.createInterface({
     input: process.stdin,
@@ -59,7 +58,6 @@ export default async function nuke() {
   console.log(pc.green("Server icon changed successfully"));
   await logger.info("Server icon changed successfully");
 
-  // Delete everything asynchronously
   await Promise.all([
     EmojiManager.deleteEveryEmoji(guild),
     EmojiManager.deleteEverySticker(guild),
@@ -67,22 +65,19 @@ export default async function nuke() {
     ChannelManager.deleteEveryChannel(guild),
   ]);
 
-  // Initialize readline again for this module (if needed)
   const rl = initializeReadline();
 
-  // Ask the user question and wait for the input
+  await logger.info("asking to ban everyone");
   const answer = await askQuestion(
-    pc.yellow("Do you want to ban everyone from the server? (y/n): "),
-    rl
+    pc.yellow("Do you want to ban everyone from the server? (y/n): ")
   );
 
   if (answer.toLowerCase().startsWith("y")) {
+    await logger.info("user wants to ban everyone");
     await MemberManager.banEveryone(guild);
   }
 
-  // Close the readline interface after the user input is taken
   rl.close();
 
-  // Now create channels after handling user input
   await ChannelManager.createChannel(guild);
 }

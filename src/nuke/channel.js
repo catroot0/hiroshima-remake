@@ -136,7 +136,6 @@ class Channel {
   
   ||@everyone||
   `);
-        // await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure there's a small delay between messages
       }
     } catch (error) {
       await logger.error(
