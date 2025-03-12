@@ -25,12 +25,10 @@ export default async function checkPermissions(bot) {
 
     if (missingPermissions.length > 0) {
       logger.error(`missing permissions: ${missingPermissions.join(", ")}`);
-      console.log(
-        pc.red(
-          `missing permissions: ${pc.blueBright(missingPermissions.join(", "))}`
-        )
-      );
+
+      console.log(pc.red(`missing permissions: ${pc.blueBright(missingPermissions.join(", "))}`));
       console.log("please update the permissions and restart the bot.");
+      
       return 0;
     } else {
       logger.info("bot has all required permissions");

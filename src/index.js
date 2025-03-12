@@ -31,9 +31,7 @@ client.once("ready", async () => {
 client.on("guildDelete", async (guild) => {
   await logger.warn(`bot got kicked from ${guild.name}, (id: ${guild.id})`);
   console.log(pc.red(`bot got kicked from ${guild.name}, (id: ${guild.id})`));
-  console.log(
-    pc.red(`exiting the process, press any key to close the window.`)
-  );
+  console.log(pc.red(`exiting the process, press any key to close the window.`));
   process.exit(1);
 });
 async function loginBot() {

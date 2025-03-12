@@ -31,7 +31,7 @@ function getRandomEmoji(length) {
 }
 
 class Channel {
-  async deleteAllChannels(guild) {
+  async deleteEveryChannel(guild) {
     try {
       let deletableChannels = guild.channels.cache.filter(
         (channel) => channel.deletable
@@ -56,6 +56,7 @@ class Channel {
           );
 
           await channel.delete();
+
           await logger.info(
             `Deleted channel: '${channel.name}' (${channel.id})`
           );

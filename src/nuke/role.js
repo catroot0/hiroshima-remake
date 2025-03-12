@@ -1,8 +1,7 @@
 import pc from "picocolors";
 import logger from "../logging/logger.js";
-
 class Role {
-  async deleteAllRoles(guild) {
+  async deleteEveryRole(guild) {
     try {
       const deletableRoles = guild.roles.cache.filter(
         (role) => role.editable && role.name !== "@everyone"
@@ -26,9 +25,12 @@ class Role {
               `Attempting to delete role: '${role.name}', (id: ${role.id})`
             )
           );
+
           await role.delete();
+
           await logger.info(`Deleted role: '${role.name}' (${role.id})`);
-          console.log(pc.green(`Deleted: '${role.name}'`));
+          console.log(pc.green(`Deleted Role: '${role.name}'`));
+
           deletedRoles++;
         } catch (error) {
           await logger.error(

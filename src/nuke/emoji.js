@@ -2,16 +2,29 @@ import pc from "picocolors";
 import logger from "../logging/logger.js";
 
 class Emoji {
-  async deleteAllEmojis(guild) {
+  async deleteEveryEmoji(guild) {
     try {
       const emojis = guild.emojis.cache;
       if (emojis.size === 0) {
-        await logger.info("no deletable emoji found!");
+        await logger.warn("no deletable emoji found!");
         console.log(pc.red(`no deletable emoji found!`));
         return;
       }
+
       for (const emoji of emojis.values()) {
+        await logger.info(
+          `Attempting to delete emoji: '${emoji.name}', (id: ${emoji.id})`
+        );
+        console.log(
+          pc.yellow(
+            `Attempting to delete emoji: '${emoji.name}', (id: ${emoji.id})`
+          )
+        );
+
         await emoji.delete();
+
+        await logger.info(`Deleted emoji: '${emoji.name}' (${emoji.id})`);
+        console.log(pc.green(`Deleted emoji: '${emoji.name}'`));
       }
     } catch (error) {
       await logger.error(`Error in deleteAllEmojis: ${error.message}`);
@@ -19,16 +32,27 @@ class Emoji {
     }
   }
 
-  async deleteAllSticker(guild) {
+  async deleteEverySticker(guild) {
     try {
       const stickers = guild.stickers.cache;
       if (stickers.size === 0) {
-        await logger.info("no deletable sticker found!");
+        await logger.warn("no deletable sticker found!");
         console.log(pc.red(`no deletable sticker found!`));
         return;
       }
       for (const sticker of stickers.values()) {
+        await logger.info(
+          `Attempting to delete sticker: '${sticker.name}', (id: ${sticker.id})`
+        );
+        console.log(
+          pc.yellow(
+            `Attempting to delete sticker: '${sticker.name}', (id: ${sticker.id})`
+          )
+        );
+
         await sticker.delete();
+        await logger.info(`Deleted sticker: '${sticker.name}' (${sticker.id})`);
+        console.log(pc.green(`Deleted sticker: '${sticker.name}'`));
       }
     } catch (error) {
       await logger.error(`Error in deleteAllStickers: ${error.message}`);
