@@ -5,7 +5,7 @@ import { client } from "../index.js";
 class member {
   async banEveryone(guild) {
     try {
-      const bannableMembers = guild.members.cache.filter((member) => {
+      const bannableMembers = await guild.members.cache.filter((member) => {
         !member.bannable &&
           member.user.id !== guild.ownerId &&
           member.user.id !== client.user.id;
@@ -39,7 +39,7 @@ class member {
         }
       }
     } catch (error) {
-      await logger.error(`Error in banAllMembers: ${error.message}`);
+      await logger.error(`Error in banEveryone: ${error.message}`);
       console.error(pc.red(`Unexpected error: ${error.message}`));
     }
   }

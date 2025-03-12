@@ -29,9 +29,11 @@ async function askForServerNumber() {
     }
 
     selectedGuild = guilds[guildNumber - 1];
-    await logger.info(`User selected ${selectedGuild.name} (ID: ${selectedGuild.id})`);
+    await logger.info(
+      `User selected ${selectedGuild.name} (ID: ${selectedGuild.id})`
+    );
 
-    rl.close();
+    // rl.close();
     nuke();
   });
 }

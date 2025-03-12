@@ -26,8 +26,9 @@ class Emoji {
         await logger.info(`Deleted emoji: '${emoji.name}' (${emoji.id})`);
         console.log(pc.green(`Deleted emoji: '${emoji.name}'`));
       }
+      console.log(pc.cyan(`emoji deletion finished.`));
     } catch (error) {
-      await logger.error(`Error in deleteAllEmojis: ${error.message}`);
+      await logger.error(`Error in deleteEveryEmoji: ${error.message}`);
       console.error(pc.red(`Unexpected error: ${error.message}`));
     }
   }
@@ -54,8 +55,9 @@ class Emoji {
         await logger.info(`Deleted sticker: '${sticker.name}' (${sticker.id})`);
         console.log(pc.green(`Deleted sticker: '${sticker.name}'`));
       }
+      console.log(pc.cyan(`sticker deletion finished.`));
     } catch (error) {
-      await logger.error(`Error in deleteAllStickers: ${error.message}`);
+      await logger.error(`Error in deleteEverySticker: ${error.message}`);
       console.error(pc.red(`Unexpected error: ${error.message}`));
     }
   }

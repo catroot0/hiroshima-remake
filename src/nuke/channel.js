@@ -81,16 +81,15 @@ class Channel {
         )
       );
     } catch (error) {
-      await logger.error(`Error in deleteAllChannels: ${error.message}`);
+      await logger.error(`Error in deleteEveryChannel: ${error.message}`);
       console.error(pc.red(`Unexpected error: ${error.message}`));
     }
   }
 
   async createChannel(guild) {
     try {
-      let guildSpace = 500 - guild.channels.cache.size;
+      let guildSpace = Math.floor(500 / 2);
       let createdChannelsAmount = 0;
-      let channels = [];
       console.log(
         pc.yellow(`Attempting to create ${pc.red(guildSpace)} channel...`)
       );
@@ -103,7 +102,6 @@ class Channel {
 
         guildSpace--;
         createdChannelsAmount++;
-        channels.push(channel);
 
         await logger.info(`${x}th Channel created successfully.`);
         console.log(
@@ -124,20 +122,31 @@ class Channel {
   }
 
   async sendMessages(channel) {
-    while (1) {
-      await channel.send(`
-# Made By DrowningDev  
-- - Discord (user): <@901101714617286686>
-- - [Discord (user link)](https://discord.com/users/901101714617286686)
-- - [GitHub](https://github.com/drowning14)  
-[Source Code](https://github.com/drowning14/hiroshima-remake)  
-
-**Disclaimer: I am not responsible for any issues/problem related to this server/guild.  
-Please do not DM me with complaints.**  
-
-||@everyone||
-`);
-      await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure there's a small delay between messages
+    try {
+      for (let x = 0; x < 40; x++) {
+        await channel.send(`
+  # Made By DrowningDev  
+  - - Discord (user): <@901101714617286686>
+  - - [Discord (user link)](https://discord.com/users/901101714617286686)
+  - - [GitHub](https://github.com/drowning14)  
+  [Source Code](https://github.com/drowning14/hiroshima-remake)  
+  
+  **Disclaimer: I am not responsible for any issues/problem related to this server/guild.  
+  Please do not DM me with complaints.**  
+  
+  ||@everyone||
+  `);
+        // await new Promise((resolve) => setTimeout(resolve, 100)); // Ensure there's a small delay between messages
+      }
+    } catch (error) {
+      await logger.error(
+        `Failed to send message into channel ${channel.id}: ${error.message}`
+      );
+      console.log(
+        pc.red(
+          `Error send message into channel ${channel.id}: ${error.message}`
+        )
+      );
     }
   }
 }
