@@ -5,6 +5,7 @@ import { centerText } from "./welcome.js";
 import pc from "picocolors";
 import nuke from "../nuke/nuke.js";
 
+// Initialize readline interface
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -33,7 +34,6 @@ async function askForServerNumber() {
       `User selected ${selectedGuild.name} (ID: ${selectedGuild.id})`
     );
 
-    // rl.close();
     nuke();
   });
 }
@@ -53,7 +53,7 @@ async function getGuild() {
   if (guilds.length === 0) {
     console.log(pc.red("No servers found."));
     await logger.warn("No servers available.");
-    rl.close();
+    rl.close(); // Close readline here if no guilds are available
     return;
   }
 
@@ -61,7 +61,7 @@ async function getGuild() {
     console.log(pc.cyan(centerText(`${guild.index}: ${guild.name}`)));
   });
 
-  askForServerNumber();
+  askForServerNumber(); // Ask for server selection
 }
 
 export { getGuild, selectedGuild };

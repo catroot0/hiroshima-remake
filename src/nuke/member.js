@@ -2,20 +2,26 @@ import logger from "../logging/logger.js";
 import pc from "picocolors";
 import { client } from "../index.js";
 
-class member {
+class Member {
   async banEveryone(guild) {
     try {
+      // Ensure the filter method properly returns a boolean condition
       const bannableMembers = await guild.members.cache.filter((member) => {
-        !member.bannable &&
+        return (
+          member.bannable &&
           member.user.id !== guild.ownerId &&
-          member.user.id !== client.user.id;
+          member.user.id !== client.user.id
+        );
       });
 
       if (bannableMembers.size === 0) {
-        await logger.warn("No bannable Member Found!");
+        await logger.warn("No bannable members found!");
+        console.log(pc.red("No bannable members found!"));
+        return;
       }
 
-      for (const member of member.values()) {
+      // Loop through the bannable members
+      for (const member of bannableMembers.values()) {
         try {
           await logger.info(
             `Attempting to ban: ${member.user.tag} (id: ${member.user.id})`
@@ -26,10 +32,11 @@ class member {
             )
           );
 
+          // Ban the member
           await guild.bans.create(member.user.id);
 
           console.log(
-            pc.green(`member ${member.user.tag} banned successfully`)
+            pc.green(`Member ${member.user.tag} banned successfully`)
           );
         } catch (error) {
           await logger.error(
@@ -44,5 +51,7 @@ class member {
     }
   }
 }
-const MemberManager = new member();
+
+// Ensure class name starts with uppercase to follow JavaScript conventions
+const MemberManager = new Member();
 export default MemberManager;
