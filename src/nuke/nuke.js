@@ -69,15 +69,39 @@ export default async function nuke() {
 
   await logger.info("asking to ban everyone");
   const answer = await askQuestion(
-    pc.yellow("Do you want to ban everyone from the server? (y/n): ")
+    pc.yellow("Do you want to ban everyone from the server? (y/n): "),
+    rl
   );
 
   if (answer.toLowerCase().startsWith("y")) {
     await logger.info("user wants to ban everyone");
     await MemberManager.banEveryone(guild);
+  } else {
+    await logger.info("user don't want to ban everyone");
+    await logger.info(
+      "asking if they want to change everyone's server nickname"
+    );
+    const answer = await askQuestion(
+      pc.yellow(
+        'Do you want to change everyone\'s SERVER nickname to "Meow"? (y/n), NOT RECOMMENDED: '
+      ),
+      rl
+    );
+    if (answer.toLowerCase().startsWith("y")) {
+      await logger.info("user wants to change everyone's nickname to meow");
+      await MemberManager.changeNickname(guild);
+    }
   }
 
   rl.close();
 
   await ChannelManager.createChannel(guild);
+  console.clear();
+  await logger.info("nuke finished!");
+  console.log(
+    pc.cyan(
+      "nuke finished, thanks for using this bot. \n press any key to exit."
+    )
+  );
+  process.exit(1);
 }

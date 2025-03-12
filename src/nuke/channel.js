@@ -104,9 +104,7 @@ class Channel {
         createdChannelsAmount++;
 
         await logger.info(`${x}th Channel created successfully.`);
-        console.log(
-          pc.green(`${x}th Channel created successfully. ${guildSpace} left.`)
-        );
+        console.log(pc.green(`${x}th Channel created successfully.`));
         this.sendMessages(channel);
       }
 
