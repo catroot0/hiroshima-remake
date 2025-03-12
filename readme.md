@@ -24,10 +24,10 @@ Hiroshima Bot is a Discord bot designed to perform server moderation tasks, incl
 
 1. **Clone the Repository**:
 
-   \`\`\`bash
+   ```bash
    git clone https://github.com/drowning14/hiroshima-remake.git
    cd hiroshima-remake
-   \`\`\`
+   ```
 
 2. **Install Dependencies**:
 
@@ -38,11 +38,11 @@ Hiroshima Bot is a Discord bot designed to perform server moderation tasks, incl
 3. **Set Up Environment Variables**:
 
    - After running the start.bat file you should see the .env file.
-   - Add your bot token to the \`.env\` file like so:
+   - Add your bot token to the `.env` file like so:
 
-   \`\`\`env
+   ```env
    token="YOUR_BOT_TOKEN_HERE"
-   \`\`\`
+   ```
 
    > Make sure to replace \`YOUR_BOT_TOKEN_HERE\` with your actual bot token from the Discord Developer Portal.
 
