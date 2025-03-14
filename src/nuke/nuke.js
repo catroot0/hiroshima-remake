@@ -8,20 +8,20 @@ import EmojiManager from "./emoji.js"; // Import EmojiManager to handle emoji an
 import pc from "picocolors"; // Import the picocolors library for colorful console output
 import logger from "../logging/logger.js"; // Import the custom logger for logging actions
 import MemberManager from "./member.js"; // Import MemberManager to handle member-related actions such as banning or changing nicknames
-
+import { rl } from "../alert/getGuild.js";
 // Function to initialize readline interface for user input
-function initializeReadline() {
-  return readline.createInterface({
-    input: process.stdin, // Input stream from the user (command line)
-    output: process.stdout, // Output stream to display questions to the user
-  });
-}
 
 // Function to prompt the user with a question and return the answer
 async function askQuestion(query, rl) {
   return new Promise((resolve) => {
     rl.question(query, (answer) => {
-      resolve(answer); // Resolve the promise with the user's answer
+      const normalized = answer.toLowerCase();
+      if (normalized === "y" || normalized === "n") {
+        resolve(normalized); // Return the valid input
+      } else {
+        console.log(pc.red("Invalid input. Please enter 'y' or 'n'."));
+        resolve(askQuestion(query, rl)); // Recursive call to re-prompt
+      }
     });
   });
 }
@@ -32,7 +32,10 @@ export default async function nuke() {
   const bot = await guild.members.fetch(client.user.id); // Fetch the bot (client) from the guild
 
   // Check if the bot has the necessary permissions to perform actions in the guild
-  if (!(await checkPermissions(bot))) return;
+  if (!(await checkPermissions(bot))) {
+    console.log(pc.red(`press any key to exit.`));
+    process.exit(1);
+  }
 
   console.log(pc.green(`Nuking Server: ${guild.name}`)); // Log the server being nuked
   console.log(pc.yellow("Changing the server name...")); // Inform the user that the server name is being changed
@@ -74,9 +77,6 @@ export default async function nuke() {
     ChannelManager.deleteEveryChannel(guild),
   ]);
 
-  // Initialize the readline interface to prompt the user for further actions
-  const rl = initializeReadline();
-
   await logger.info("asking to ban everyone"); // Log the action of asking the user if they want to ban everyone
   const answer = await askQuestion(
     pc.yellow("Do you want to ban everyone from the server? (y/n): "), // Ask the user if they want to ban all members
@@ -116,8 +116,8 @@ export default async function nuke() {
   await logger.info("nuke finished!"); // Log that the nuke process is complete
   console.log(
     pc.cyan(
-      "nuke finished, thanks for using this bot. \n press any key to exit." // Inform the user that the nuke process is finished
+      "nuke finished, thanks for using this bot. \npress any key to exit." // Inform the user that the nuke process is finished
     )
   );
-  // await process.exit(1); // Exit the process after the nuke is finished
+  process.exit(0); // Exit the process after the nuke is finished
 }

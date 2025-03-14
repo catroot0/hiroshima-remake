@@ -5,7 +5,7 @@
     "picocolors": "^1.1.1"
   },
   "name": "hiroshima-remake",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./src/index.js",
   "type": "module",
   "scripts": {

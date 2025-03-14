@@ -70,4 +70,4 @@ async function getGuild() {
   askForServerNumber(); // Prompt the user to select a server number
 }
 
-export { getGuild, selectedGuild }; // Export the getGuild function and the selectedGuild variable for use in other modules
+export { getGuild, selectedGuild, rl }; // Export the getGuild function and the selectedGuild variable for use in other modules

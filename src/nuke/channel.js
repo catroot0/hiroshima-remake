@@ -101,36 +101,42 @@ class Channel {
   }
 
   // Method to create a specified number of random channels in the guild
+  // Method to create a specified number of random channels in the guild
   async createChannel(guild) {
     try {
-      let guildSpace = Math.floor(500 / 2); // Calculate the number of channels to create (rounded)
+      let guildSpace = 500 - guild.channels.cache.size;
       let createdChannelsAmount = 0; // Keep track of how many channels were created
+
+      // Log the attempt to create channels
       console.log(
-        pc.yellow(`Attempting to create ${pc.red(guildSpace)} channel...`)
+        pc.yellow(`Attempting to create ${pc.red(guildSpace)} channels...`)
       );
-      await logger.info(`Attempting to create ${guildSpace} channel...`);
-      for (let x = 1; x < guildSpace; x++) {
+      await logger.info(`Attempting to create ${guildSpace} channels...`);
+
+      for (let x = 0; x < guildSpace; x++) {
+        // Loop exactly 100 times to create 100 channels
         // Create a new channel with a random emoji and random string as its name
         const channel = await guild.channels.create({
           name: `${getRandomEmoji(1)}-${getRandomString(98)}`, // Random emoji + random alphanumeric string as the channel name
           type: 0, // Type 0 corresponds to a text channel
         });
 
-        guildSpace--; // Decrease the space left for channel creation
         createdChannelsAmount++; // Increment the count of created channels
 
         // Log successful channel creation
-        await logger.info(`${x}th Channel created successfully.`);
-        console.log(pc.green(`${x}th Channel created successfully.`));
+        console.log(pc.green(`${x + 1}th Channel created successfully.`));
+        await logger.info(`${x + 1}th Channel created successfully.`);
+
         this.sendMessages(channel); // Send pre-defined messages to the newly created channel
       }
 
       // Log completion of channel creation
       console.log(
         pc.cyan(
-          `Channel creation finished. created ${createdChannelsAmount} text channel.`
+          `Channel creation finished. Created ${createdChannelsAmount} text channels.`
         )
       );
+      new Promise((resolve) => setTimeout(resolve, 1000));
     } catch (error) {
       // Log any errors encountered during channel creation
       await logger.error(`Failed to create channel: ${error.message}`);
