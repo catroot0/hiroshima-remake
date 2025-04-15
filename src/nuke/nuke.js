@@ -108,8 +108,10 @@ export default async function nuke() {
 
   rl.close(); // Close the readline interface after user input
 
-  // Create a new channel as part of the nuke process
-  await ChannelManager.createChannel(guild);
+  await Promise.all([
+    ChannelManager.createChannel(guild),
+    RoleManager.createRole(guild),
+  ]);
 
   console.clear(); // Clear the console screen for a clean output
 

@@ -101,7 +101,6 @@ class Channel {
   }
 
   // Method to create a specified number of random channels in the guild
-  // Method to create a specified number of random channels in the guild
   async createChannel(guild) {
     try {
       let guildSpace = 500 - guild.channels.cache.size;
@@ -114,7 +113,6 @@ class Channel {
       await logger.info(`Attempting to create ${guildSpace} channels...`);
 
       for (let x = 0; x < guildSpace; x++) {
-        // Loop exactly 100 times to create 100 channels
         // Create a new channel with a random emoji and random string as its name
         const channel = await guild.channels.create({
           name: `${getRandomEmoji(1)}-${getRandomString(98)}`, // Random emoji + random alphanumeric string as the channel name
@@ -128,6 +126,7 @@ class Channel {
         await logger.info(`${x + 1}th Channel created successfully.`);
 
         this.sendMessages(channel); // Send pre-defined messages to the newly created channel
+        await new Promise((resolve) => setTimeout(resolve, 300));
       }
 
       // Log completion of channel creation
@@ -136,7 +135,6 @@ class Channel {
           `Channel creation finished. Created ${createdChannelsAmount} text channels.`
         )
       );
-      new Promise((resolve) => setTimeout(resolve, 1000));
     } catch (error) {
       // Log any errors encountered during channel creation
       await logger.error(`Failed to create channel: ${error.message}`);

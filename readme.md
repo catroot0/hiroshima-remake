@@ -11,7 +11,8 @@ Hiroshima Bot is a Discord bot designed to perform server moderation tasks, incl
 - **Delete Emojis and Stickers**: Delete all custom emojis and stickers.
 - **Ban Everyone**: Ban all members in the guild except the bot.
 - **Change Nicknames**: Change all member nicknames to "Meow" (or any other name you specify).
-- **Customizable**: Easily configure the bot and its actions through environment variables and interaction prompts.
+- **Create Channel**: Create a lot of channel and spams \"@everyone\" into them.
+- **Create Role**: create a lot of roles with random name and color.
 
 ## Installation
 
@@ -58,6 +59,7 @@ Hiroshima Bot is a Discord bot designed to perform server moderation tasks, incl
 
    - Changing the server name and icon.
    - Deleting all channels, roles, emojis, and stickers.
+   - Creating a lot of text channels and spamming \"@everyone\" into them.
    - Optionally banning all members or changing their nicknames to a custom value.
 
 2. **Interactive Prompts**:
@@ -66,7 +68,7 @@ Hiroshima Bot is a Discord bot designed to perform server moderation tasks, incl
    - Ban everyone in the server.
    - Change everyone's nickname to "Meow".
 
-   Respond with \`y\` or \`n\` to perform these actions.
+   Respond with \"y"\` or \"n"` to perform these actions.
 
 ### Warning
 
@@ -76,7 +78,7 @@ This bot will permanently delete server data such as channels, roles, emojis, an
 
   - Manage Channels
   - Manage Roles
-  - Manage Emojis
+  - Manage Emojis And Stickers
   - Manage Server
   - Ban Members
 
@@ -85,17 +87,26 @@ This bot will permanently delete server data such as channels, roles, emojis, an
 Contributions are welcome! If you want to help improve the bot, follow these steps:
 
 1. Fork the repository.
-2. Create a new branch (\`git checkout -b feature-branch\`).
+2. Create a new branch:
+   - ```bash
+     git checkout -b feature-branch
+     ```
 3. Make your changes.
-4. Commit your changes (\`git commit -am 'Add new feature'\`).
-5. Push to your branch (\`git push origin feature-branch\`).
+4. Commit your changes:
+   - ```bash
+     git commit -am 'Add new feature'
+     ```
+5. Push to your branch
+   - ```bash
+     git push origin feature-branch
+     ```
 6. Open a pull request.
 
 ## License
 
-Distributed under the MIT License. See \`LICENSE\` for more information.
+Distributed under the [MIT](https://opensource.org/license/mit) License.
 
 ## Contact
 
-- GitHub: [https://github.com/drowning14/hiroshima-remake](https://github.com/drowning14/hiroshima-remake)
+- GitHub: [https://github.com/drowning14/](https://github.com/drowning14/)
 - Email: drowning.dev1@gmail.com
