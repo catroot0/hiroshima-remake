@@ -95,18 +95,18 @@ class Role {
 
         createdRolesAmount++; // Increment the count of created roles
 
-        // Log successful channel creation
+        // Log successful role creation
         console.log(pc.green(`${x + 1}th Role created successfully.`));
         await logger.info(`${x + 1}th Role created successfully.`);
         await new Promise((resolve) => setTimeout(resolve, 300));
       }
 
-      // Log completion of channel creation
+      // Log completion of role creation
       console.log(
         pc.cyan(`Role creation finished. Created ${createdRolesAmount} roles.`)
       );
     } catch (error) {
-      // Log any errors encountered during channel creation
+      // Log any errors encountered during role creation
       await logger.error(`Failed to create role: ${error.message}`);
       console.log(pc.red(`Error creating role: ${error.message}`));
     }
