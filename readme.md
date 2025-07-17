@@ -26,7 +26,7 @@ Hiroshima Bot is a Discord bot designed to perform server moderation tasks, incl
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/drowning14/hiroshima-remake.git
+   git clone https://github.com/catroot0/hiroshima-remake.git
    cd hiroshima-remake
    ```
 
@@ -108,5 +108,6 @@ Distributed under the [MIT](https://opensource.org/license/mit) License.
 
 ## Contact
 
-- GitHub: [https://github.com/drowning14/](https://github.com/drowning14/)
-- Email: drowning.dev1@gmail.com
+- GitHub: [catroot0](https://github.com/catroot0/)
+- Telegram: [@catroot01](https://t.me/catroot01)
+- Discord: [@catroot0](https://discord.com/users/1358758349054808226)
