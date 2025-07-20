@@ -10,14 +10,14 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/drowning14/hiroshima-remake.git"
+    "url": "git+https://github.com/catroot0/hiroshima-remake.git"
   },
   "keywords": [],
   "author": "DrowningDev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/drowning14/hiroshima-remake/issues"
+    "url": "https://github.com/catroot0/hiroshima-remake/issues"
   },
-  "homepage": "https://github.com/drowning14/hiroshima-remake#readme",
+  "homepage": "https://github.com/catroot0/hiroshima-remake#readme",
   "description": "A powerful and high-speed bot designed for mass server destruction. Built for efficiency, it delivers rapid execution with minimal effort. Whether for testing, experimentation, or other purposes, this bot provides a seamless experience."
 }
